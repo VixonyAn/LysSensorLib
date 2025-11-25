@@ -12,6 +12,10 @@
 		//Constructor for LogEntry
 		public LogEntry(int outsideLightLevel, bool curtainsOpened)
         {
+            if(outsideLightLevel < 0 || outsideLightLevel > 150000)
+            {
+                throw new ArgumentOutOfRangeException("outsideLightLevel", "Outside light level must be between 0 and 150000 lux.");
+            }
             TimeTurnedOn = DateTime.Now;
             OutsideLightLevel = outsideLightLevel;
             CurtainOpened = curtainsOpened;
@@ -27,7 +31,7 @@
         public override string ToString()
         {
             return "LogEntry [TimeTurnedOn = " + TimeTurnedOn + ", OutsideLightLevel = " + OutsideLightLevel
-                    + ", CurtainOpened = " + CurtainOpened + "]";
+                    + "lux, CurtainOpened = " + CurtainOpened + "]";
         }
         #endregion
     }
