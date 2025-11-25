@@ -22,6 +22,13 @@
         {
         
         }
-		#endregion
-	}
+        #endregion
+        #region Methods
+        public override string ToString()
+        {
+            return "LogEntry [TimeTurnedOn = " + TimeTurnedOn + ", OutsideLightLevel = " + OutsideLightLevel
+                    + ", CurtainOpened = " + CurtainOpened + "]";
+        }
+        #endregion
+    }
 }
