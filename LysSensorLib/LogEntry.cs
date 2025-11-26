@@ -4,21 +4,19 @@
     {
 		#region Properties
 		public DateTime TimeTurnedOn { get; set; }
-        public int OutsideLightLevel { get; set; } //in Lux
+        public int OutsideLightLevel { get; set; } //in Lux?
         public bool CurtainOpened { get; set; }
-		#endregion
+        public bool LightOn { get; set; }
+        #endregion
 
-		#region Constructors
-		//Constructor for LogEntry
-		public LogEntry(int outsideLightLevel, bool curtainsOpened)
+        #region Constructors
+        //Constructor for LogEntry
+        public LogEntry(int outsideLightLevel, bool curtainsOpened, bool lightOn)
         {
-            if(outsideLightLevel < 0 || outsideLightLevel > 150000)
-            {
-                throw new ArgumentOutOfRangeException("outsideLightLevel", "Outside light level must be between 0 and 150000 lux.");
-            }
             TimeTurnedOn = DateTime.Now;
             OutsideLightLevel = outsideLightLevel;
             CurtainOpened = curtainsOpened;
+            LightOn = lightOn;
         }
 
         //Default constructor for LogEntry
