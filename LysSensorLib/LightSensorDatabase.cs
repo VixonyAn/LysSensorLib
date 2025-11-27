@@ -35,7 +35,8 @@ namespace LysSensorLib
         }
 
         public IEnumerable<LogEntry> Get(
-            DateTime? date = null) // Dette er vores søge/filter for dato
+            DateTime? date = null, // Dette er vores søge/filter for dato
+            bool? descending = null) //Sort by TimeTurnedOn.Date ascending by default.
         {
             IQueryable<LogEntry> query = _context.LogEntries;
 
@@ -44,6 +45,12 @@ namespace LysSensorLib
                 DateTime targetDate = date.Value.Date;
                 query = query.Where(le => le.TimeTurnedOn.Date == targetDate);
             }
+
+            // Always apply ordering by the Date component of TimeTurnedOn
+            query = (bool)descending
+                ? query.OrderByDescending(le => le.TimeTurnedOn.Date)
+                : query.OrderBy(le => le.TimeTurnedOn.Date);
+
             return query.ToList();
         }
 
