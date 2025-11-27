@@ -4,7 +4,7 @@
     {
 		#region Properties
 		public DateTime TimeTurnedOn { get; set; }
-        public int OutsideLightLevel { get; set; } //in Lux?
+        public int OutsideLightLevel { get; set; } 
         public bool CurtainOpened { get; set; }
         public bool LightOn { get; set; }
         #endregion
