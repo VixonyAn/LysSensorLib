@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LysSensorLib
-{
+{ // Also a LogEntryDatabase
     public class LightSensorDatabase
     {
         private readonly LightSensorDBContext _context;
@@ -34,8 +34,7 @@ namespace LysSensorLib
             return logEntry;
         }
 
-        public IEnumerable<LogEntry> Get(
-            DateTime? date = null) // Dette er vores søge/filter for dato
+        public IEnumerable<LogEntry> Get(DateTime? date = null) // Dette er vores søge/filter for dato
         {
             IQueryable<LogEntry> query = _context.LogEntries;
 
