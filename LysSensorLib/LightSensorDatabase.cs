@@ -34,9 +34,17 @@ namespace LysSensorLib
             return logEntry;
         }
 
-        public IEnumerable<LogEntry> Get()
+        public IEnumerable<LogEntry> Get(
+            DateTime? date = null) // Dette er vores søge/filter for dato
         {
-            throw new NotImplementedException();
+            IQueryable<LogEntry> query = _context.LogEntries;
+
+            if (date.HasValue)
+            {
+                DateTime targetDate = date.Value.Date;
+                query = query.Where(le => le.TimeTurnedOn.Date == targetDate);
+            }
+            return query.ToList();
         }
 
         public LogEntry? GetById(int id)
