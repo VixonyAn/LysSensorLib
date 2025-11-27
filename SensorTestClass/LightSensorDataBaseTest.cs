@@ -13,6 +13,7 @@ namespace SensorTestClass
         //Remember "Should fail" Tests!!! c: 
 
         private readonly LightSensorDatabase _lightSensorDatabase;
+
         [TestMethod]
         public void AddObjectTest()
         {
@@ -33,7 +34,27 @@ namespace SensorTestClass
             //Assert
             Assert.IsNotNull(AllData);
         }
-        [TestMethod] 
+		[TestMethod]
+		public void GetFilteredTest()
+		{
+			//Arrange DD/MM/YYYY HH:MM:SS
+			LightSensorDatabase DB = _lightSensorDatabase;
+            LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
+			LogEntry log2 = new LogEntry(70000, true, false); log2.TimeTurnedOn.AddDays(1);
+			LogEntry log3 = new LogEntry(4000, false, true); log3.TimeTurnedOn.AddDays(3);
+            DB.Add(log1); DB.Add(log2); DB.Add(log3);
+
+
+            //Act
+            var AllData = DB.Get(sortAsc);
+            var firstEntry = AllData.First();
+			var lastEntry = AllData.Last();
+
+            //Assert
+            Assert.AreEqual(firstEntry, log2);
+            Assert.AreEqual(lastEntry, log3);
+		}
+		[TestMethod] 
         public void GetByIdTest()
         {
             //act 

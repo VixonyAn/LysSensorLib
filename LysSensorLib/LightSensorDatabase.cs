@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LysSensorLib
-{
+{ // Also a LogEntryDatabase
     public class LightSensorDatabase
     {
         private readonly LightSensorDBContext _context;
