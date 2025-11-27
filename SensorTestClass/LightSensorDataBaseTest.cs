@@ -44,11 +44,15 @@ namespace SensorTestClass
 			LogEntry log3 = new LogEntry(4000, false, true); log3.TimeTurnedOn.AddDays(3);
             DB.Add(log1); DB.Add(log2); DB.Add(log3);
 
-            //Act
-            DB.Get()
 
-			//Assert
-			Assert.IsNotNull(AllData);
+            //Act
+            var AllData = DB.Get(sortAsc);
+            var firstEntry = AllData.First();
+			var lastEntry = AllData.Last();
+
+            //Assert
+            Assert.AreEqual(firstEntry, log2);
+            Assert.AreEqual(lastEntry, log3);
 		}
 		[TestMethod] 
         public void GetByIdTest()
