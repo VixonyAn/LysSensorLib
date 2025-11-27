@@ -40,16 +40,17 @@ namespace LysSensorLib
         {
             IQueryable<LogEntry> query = _context.LogEntries;
 
-            if (date.HasValue)
+            if (date != null)
             {
                 DateTime targetDate = date.Value.Date;
                 query = query.Where(le => le.TimeTurnedOn.Date == targetDate);
             }
-
-            // Always apply ordering by the Date component of TimeTurnedOn
-            query = (bool)descending
+            if (descending != null)
+            {
+                query = (bool)descending
                 ? query.OrderByDescending(le => le.TimeTurnedOn.Date)
                 : query.OrderBy(le => le.TimeTurnedOn.Date);
+            }
 
             return query.ToList();
         }
