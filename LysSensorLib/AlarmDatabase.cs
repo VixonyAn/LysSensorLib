@@ -8,7 +8,7 @@ namespace LysSensorLib
 {
     public class AlarmDatabase
     {
-        //private string connectionString = ;
+        private string connectionString = Secret.ConnectionString;
 
         public LogEntry Add(Alarm a)
         {
