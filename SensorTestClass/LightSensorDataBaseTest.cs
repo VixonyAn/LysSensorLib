@@ -18,11 +18,8 @@ namespace SensorTestClass
         [TestInitialize]
         public void Setup()
         {
-            _lightSensorDatabase = new LightSensorRepositoryDB(
-                new LightSensorDBContext(
-                    new DbContextOptionsBuilder<LightSensorDBContext>()
-                    .UseSqlite("Data Source=LightSensorTestDB.db")
-                    .Options));
+            _lightSensorDatabase = new LightSensorRepositoryDB()
+            
         }
         [TestMethod]
         public void AddObjectTest()
