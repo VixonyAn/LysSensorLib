@@ -13,7 +13,16 @@ namespace SensorTestClass
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private readonly LightSensorRepositoryDB _lightSensorDatabase;
+        private static LightSensorRepositoryDB _lightSensorDatabase;
+
+        [TestInitialize]
+        public void Init()
+        {
+            var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
+            optionBuilder.UseSqlServer(Secret.ConnectionString);
+            LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
+            _lightSensorDatabase = new LightSensorRepositoryDB(_context);
+        }
 
         [TestMethod]
         public void AddObjectTest()
