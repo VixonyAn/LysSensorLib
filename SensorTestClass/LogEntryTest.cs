@@ -12,9 +12,9 @@ namespace SensorTestClass
             LogEntry logEntry = new LogEntry(500, true, false);
 
             //assert 
-            Assert.AreEqual(500, logEntry.OutsideLightLevel);
-            Assert.AreEqual(true, logEntry.CurtainOpened);
-            Assert.AreEqual(false, logEntry.LightOn);
+            Assert.AreEqual(500, logEntry.LightLevel);
+            Assert.AreEqual(true, logEntry.IsDrawn);
+            Assert.AreEqual(false, logEntry.LightsOn);
 
         }
 
@@ -26,8 +26,8 @@ namespace SensorTestClass
             //act
             var toStringResult = logEntry.ToString();
             //assert
-            Assert.AreEqual("LogEntry [TimeTurnedOn = " + logEntry.TimeTurnedOn + ", OutsideLightLevel = " + logEntry.OutsideLightLevel
-                    + "lux, CurtainOpened = " + logEntry.CurtainOpened + "]", toStringResult);
+            Assert.AreEqual("LogEntry [TimeTurnedOn = " + logEntry.TimeTurnedOn + ", OutsideLightLevel = " + logEntry.LightLevel
+                    + "lux, CurtainOpened = " + logEntry.IsDrawn + "]", toStringResult);
         }
 
         [TestMethod]

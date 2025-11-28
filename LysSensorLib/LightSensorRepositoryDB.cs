@@ -18,8 +18,8 @@ namespace LysSensorLib
         public LogEntry Add(LogEntry l)
         {
             _context.LightData.Add(l);
+            l.Id = 0; // Ensure EF Core treats this as a new entity
             _context.SaveChanges();
-            l.Id = _context.LightData.Last().Id;
             return l;
         }
 
