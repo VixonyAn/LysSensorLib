@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LysSensorLib
 {
-    public class AlarmDatabase
+    public class AlarmRepositoryDB
     {
         private string connectionString = Secret.ConnectionString;
 
