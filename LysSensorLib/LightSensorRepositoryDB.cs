@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LysSensorLib
 { // Also a LogEntryDatabase
-    public class LightSensorDatabase
+    public class LightSensorRepositoryDB
     {
         private readonly LightSensorDBContext _context;
 
-        public LightSensorDatabase(LightSensorDBContext context)
+        public LightSensorRepositoryDB(LightSensorDBContext context)
         {
             _context = context;
         }

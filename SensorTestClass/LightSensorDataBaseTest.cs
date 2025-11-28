@@ -12,7 +12,7 @@ namespace SensorTestClass
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private readonly LightSensorDatabase _lightSensorDatabase;
+        private readonly LightSensorRepositoryDB _lightSensorDatabase;
 
         [TestMethod]
         public void AddObjectTest()
@@ -38,7 +38,7 @@ namespace SensorTestClass
 		public void GetFilteredTest()
 		{
 			//Arrange DD/MM/YYYY HH:MM:SS
-			LightSensorDatabase DB = _lightSensorDatabase;
+			LightSensorRepositoryDB DB = _lightSensorDatabase;
             LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
 			LogEntry log2 = new LogEntry(70000, true, false); log2.TimeTurnedOn.AddDays(1);
 			LogEntry log3 = new LogEntry(4000, false, true); log3.TimeTurnedOn.AddDays(3);
