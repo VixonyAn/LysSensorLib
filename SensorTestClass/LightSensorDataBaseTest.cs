@@ -27,6 +27,7 @@ namespace SensorTestClass
         [TestMethod]
         public void AddObjectTest()
         {
+            Thread.Sleep(1000);
             //arrange 
             LogEntry logEntry = new LogEntry(500, true, false);
             //act
