@@ -13,6 +13,6 @@ namespace LysSensorLib
         {
             
         }
-        public DbSet<LogEntry> LogEntries { get; set; }
+        public DbSet<LogEntry> LightData { get; set; }
     }
 }

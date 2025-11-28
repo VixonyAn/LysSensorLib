@@ -3,21 +3,21 @@
     public class LogEntry
     {
 		#region Properties
-        public int Id { get; }
+        public int Id { get; set; }
         public DateTime TimeTurnedOn { get; set; }
-        public int OutsideLightLevel { get; set; } 
-        public bool CurtainOpened { get; set; }
-        public bool LightOn { get; set; }
+        public double LightLevel { get; set; } 
+        public bool IsDrawn { get; set; }
+        public bool LightsOn { get; set; }
         #endregion
 
         #region Constructors
         //Constructor for LogEntry
-        public LogEntry(int outsideLightLevel, bool curtainsOpened, bool lightOn)
+        public LogEntry(double outsideLightLevel, bool curtainsOpened, bool lightOn)
         {
             TimeTurnedOn = DateTime.Now;
-            OutsideLightLevel = outsideLightLevel;
-            CurtainOpened = curtainsOpened;
-            LightOn = lightOn;
+            LightLevel = outsideLightLevel;
+            IsDrawn = curtainsOpened;
+            LightsOn = lightOn;
         }
 
         //Default constructor for LogEntry
@@ -29,8 +29,8 @@
         #region Methods
         public override string ToString()
         {
-            return "LogEntry [TimeTurnedOn = " + TimeTurnedOn + ", OutsideLightLevel = " + OutsideLightLevel
-                    + "lux, CurtainOpened = " + CurtainOpened + "]";
+            return "LogEntry [TimeTurnedOn = " + TimeTurnedOn + ", OutsideLightLevel = " + LightLevel
+                    + "lux, CurtainOpened = " + IsDrawn + "]";
         }
         #endregion
     }
