@@ -19,6 +19,7 @@ namespace LysSensorLib
         {
             _context.LogEntries.Add(l);
             _context.SaveChanges();
+            l.Id = _context.LogEntries.Last().Id;
             return l;
         }
 

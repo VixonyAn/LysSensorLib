@@ -3,7 +3,7 @@
     public class LogEntry
     {
 		#region Properties
-        public int Id { get; }
+        public int Id { get; set; }
         public DateTime TimeTurnedOn { get; set; }
         public int OutsideLightLevel { get; set; } 
         public bool CurtainOpened { get; set; }
