@@ -30,10 +30,6 @@ namespace SensorTestClass
                     + "lux, CurtainOpened = " + logEntry.IsDrawn + "]", toStringResult);
         }
 
-        [TestMethod]
-        public void TestFail() 
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
