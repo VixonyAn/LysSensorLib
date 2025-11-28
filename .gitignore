@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /LysSensorLib/Secret.cs
 /RESTLysSensor/Secret.cs
+/LysSensorLib/Secret.cs
