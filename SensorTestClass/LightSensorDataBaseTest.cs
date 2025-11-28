@@ -1,4 +1,5 @@
 ﻿using LysSensorLib;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,16 @@ namespace SensorTestClass
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private readonly LightSensorDatabase _lightSensorDatabase;
+        private static LightSensorDatabase _lightSensorDatabase;
+
+        [TestInitialize]
+        public void Init()
+        {
+            var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
+            optionBuilder.UseSqlServer(Secret.ConnectionString);
+            LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
+            _lightSensorDatabase = new LightSensorDatabase(_context);
+        }
 
         [TestMethod]
         public void AddObjectTest()
@@ -21,7 +31,7 @@ namespace SensorTestClass
             LogEntry logEntry = new LogEntry(500, true, false);
             //act
             _lightSensorDatabase.Add(logEntry);
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             //assert 
             Assert.AreEqual(logEntry, LastEntry);
@@ -30,7 +40,7 @@ namespace SensorTestClass
         public void GetAllTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             //Assert
             Assert.IsNotNull(AllData);
         }
@@ -46,7 +56,7 @@ namespace SensorTestClass
 
 
             //Act
-            var AllData = DB.Get(sortAsc);
+            var AllData = DB.Get(null, true);
             var firstEntry = AllData.First();
 			var lastEntry = AllData.Last();
 
@@ -58,7 +68,7 @@ namespace SensorTestClass
         public void GetByIdTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             var RetrievedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
             //Assert
@@ -69,7 +79,7 @@ namespace SensorTestClass
         public void DeleteObjectTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             _lightSensorDatabase.Delete(LastEntry.Id);
             var DeletedEntry = _lightSensorDatabase.GetById(LastEntry.Id);

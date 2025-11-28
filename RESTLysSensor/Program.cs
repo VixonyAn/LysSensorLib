@@ -1,4 +1,5 @@
 using LysSensorLib;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,14 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<LightSensorDatabase>();
+
+LightSensorDatabase _repo;
+var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
+optionBuilder.UseSqlServer(Secret.ConnectionString);
+LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
+_repo = new LightSensorDatabase(_context);
+
+builder.Services.AddSingleton<LightSensorDatabase>(_repo);
 
 builder.Services.AddCors(options =>
 
