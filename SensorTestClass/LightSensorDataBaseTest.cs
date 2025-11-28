@@ -21,7 +21,7 @@ namespace SensorTestClass
             LogEntry logEntry = new LogEntry(500, true, false);
             //act
             _lightSensorDatabase.Add(logEntry);
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             //assert 
             Assert.AreEqual(logEntry, LastEntry);
@@ -30,7 +30,7 @@ namespace SensorTestClass
         public void GetAllTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             //Assert
             Assert.IsNotNull(AllData);
         }
@@ -46,7 +46,7 @@ namespace SensorTestClass
 
 
             //Act
-            var AllData = DB.Get(sortAsc);
+            var AllData = DB.Get(null,false);
             var firstEntry = AllData.First();
 			var lastEntry = AllData.Last();
 
@@ -58,7 +58,7 @@ namespace SensorTestClass
         public void GetByIdTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             var RetrievedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
             //Assert
@@ -69,7 +69,7 @@ namespace SensorTestClass
         public void DeleteObjectTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.GetAll();
+            var AllData = _lightSensorDatabase.Get();
             var LastEntry = AllData.Last();
             _lightSensorDatabase.Delete(LastEntry.Id);
             var DeletedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
