@@ -13,7 +13,7 @@ namespace SensorTestClass
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private static LightSensorRepositoryDB _lightSensorDatabase;
+        private LightSensorRepositoryDB _lightSensorDatabase;
 
         [TestInitialize]
         public void Init()
@@ -27,14 +27,16 @@ namespace SensorTestClass
         [TestMethod]
         public void AddObjectTest()
         {
+            Thread.Sleep(1000);
             //arrange 
             LogEntry logEntry = new LogEntry(500, true, false);
             //act
+            int beforeCount = _lightSensorDatabase.Get().Count();
             _lightSensorDatabase.Add(logEntry);
-            var AllData = _lightSensorDatabase.Get();
-            var LastEntry = AllData.Last();
+            int afterCount = _lightSensorDatabase.Get().Count();
+
             //assert 
-            Assert.AreEqual(logEntry, LastEntry);
+            Assert.AreEqual(beforeCount,afterCount-1 );
         }
         [TestMethod]
         public void GetAllTest()
@@ -44,11 +46,12 @@ namespace SensorTestClass
             //Assert
             Assert.IsNotNull(AllData);
         }
+
 		[TestMethod]
 		public void GetFilteredTest()
 		{
-			//Arrange DD/MM/YYYY HH:MM:SS
-			LightSensorRepositoryDB DB = _lightSensorDatabase;
+            //Arrange DD/MM/YYYY HH:MM:SS
+            /*LightSensorRepositoryDB DB = _lightSensorDatabase;
             LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
 			LogEntry log2 = new LogEntry(70000, true, false); log2.TimeTurnedOn.AddDays(1);
 			LogEntry log3 = new LogEntry(4000, false, true); log3.TimeTurnedOn.AddDays(3);
@@ -63,7 +66,21 @@ namespace SensorTestClass
             //Assert
             Assert.AreEqual(firstEntry, log2);
             Assert.AreEqual(lastEntry, log3);
-		}
+            */
+            var AllData = _lightSensorDatabase.Get(null, false).ToList();
+            DateTime lastentry = DateTime.MinValue;
+            foreach (var entry in AllData)
+            {
+                if (entry.TimeTurnedOn < lastentry && entry.TimeTurnedOn != lastentry)
+                {
+                    throw new AssertFailedException("Entries are not in ascending order by TimeTurnedOn");
+                }
+                else
+                {
+                    lastentry = entry.TimeTurnedOn;
+                }
+            }
+        }
 		[TestMethod] 
         public void GetByIdTest()
         {

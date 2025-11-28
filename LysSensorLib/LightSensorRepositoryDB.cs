@@ -17,9 +17,9 @@ namespace LysSensorLib
 
         public LogEntry Add(LogEntry l)
         {
-            _context.LogEntries.Add(l);
+            _context.LightData.Add(l);
+            l.Id = 0; // Ensure EF Core treats this as a new entity
             _context.SaveChanges();
-            l.Id = _context.LogEntries.Last().Id;
             return l;
         }
 
@@ -30,7 +30,7 @@ namespace LysSensorLib
             {
                 return null;
             }
-            _context.LogEntries.Remove(logEntry);
+            _context.LightData.Remove(logEntry);
             _context.SaveChanges();
             return logEntry;
         }
@@ -39,18 +39,18 @@ namespace LysSensorLib
             DateTime? date = null, // Dette er vores søge/filter for dato
             bool? descending = null) //Sort by TimeTurnedOn.Date ascending by default.
         {
-            IQueryable<LogEntry> query = _context.LogEntries;
+            IQueryable<LogEntry> query = _context.LightData;
 
             if (date != null)
             {
                 DateTime targetDate = date.Value.Date;
-                query = query.Where(le => le.TimeTurnedOn.Date == targetDate);
+                query = query.Where(le => le.TimeTurnedOn == targetDate);
             }
             if (descending != null)
             {
                 query = (bool)descending
-                ? query.OrderByDescending(le => le.TimeTurnedOn.Date)
-                : query.OrderBy(le => le.TimeTurnedOn.Date);
+                ? query.OrderByDescending(le => le.TimeTurnedOn)
+                : query.OrderBy(le => le.TimeTurnedOn);
             }
 
             return query.ToList();
@@ -58,7 +58,7 @@ namespace LysSensorLib
 
         public LogEntry? GetById(int id)
         {
-            return _context.LogEntries.Find(id);
+            return _context.LightData.Find(id);
         }
     }
 }
