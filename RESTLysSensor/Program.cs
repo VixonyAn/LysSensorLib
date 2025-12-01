@@ -1,5 +1,7 @@
 using LysSensorLib;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using RESTLysSensor.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,23 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<LightSensorRepositoryDB>();
+
+const bool useDB = true;
+ILightSensorRepositoryDB _repo;
+if (useDB)
+{
+	var optionsBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
+	optionsBuilder.UseSqlServer(LysSensorLib.Secret.ConnectionString);
+	LightSensorDBContext _dbContext = new(optionsBuilder.Options);
+	//_dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LightData");
+	_repo = new LightSensorRepositoryDB(_dbContext);
+}
+else
+{
+	Console.WriteLine("Please Connect the Database");
+}
+
+builder.Services.AddSingleton<ILightSensorRepositoryDB>(_repo);
 
 builder.Services.AddCors(options =>
 
@@ -49,16 +67,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    //Download NuGet package Swashbuckle.AspNetCore
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.MapOpenApi();
+//Download NuGet package Swashbuckle.AspNetCore
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.UseCors("allowAnythingFromZealand");
+//app.UseCors("allowAnythingFromZealand");
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
