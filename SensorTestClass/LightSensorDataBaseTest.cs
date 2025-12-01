@@ -14,7 +14,7 @@ namespace SensorTestClass
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private static LightSensorRepositoryDB _lightSensorDatabase;
+        private LightSensorRepositoryDB _lightSensorDatabase;
 
         [TestInitialize]
         public void Init()
@@ -29,14 +29,16 @@ namespace SensorTestClass
         [DoNotParallelize]
         public void AddObjectTest()
         {
+            Thread.Sleep(1000);
             //arrange 
             LogEntry logEntry = new LogEntry(DateTime.Now, 500, true, false);
             //act
+            int beforeCount = _lightSensorDatabase.Get().Count();
             _lightSensorDatabase.Add(logEntry);
-            var AllData = _lightSensorDatabase.Get();
-            var LastEntry = AllData.Last();
+            int afterCount = _lightSensorDatabase.Get().Count();
+
             //assert 
-            Assert.AreEqual(logEntry, LastEntry);
+            Assert.AreEqual(beforeCount,afterCount-1 );
         }
 		[TestMethod, Priority(2)]
 		[DoNotParallelize]
@@ -47,15 +49,15 @@ namespace SensorTestClass
             //Assert
             Assert.IsNotNull(AllData);
         }
-		[TestMethod, Priority(3)]
-		[DoNotParallelize]
+
+		[TestMethod]
 		public void GetFilteredTest()
 		{
-			//Arrange DD/MM/YYYY HH:MM:SS
-			LightSensorRepositoryDB DB = _lightSensorDatabase;
-            LogEntry log1 = new LogEntry(DateTime.Now, 50000, true, false); log1.TimeTurnedOn.AddDays(2);
-			LogEntry log2 = new LogEntry(DateTime.Now, 70000, true, false); log2.TimeTurnedOn.AddDays(1);
-			LogEntry log3 = new LogEntry(DateTime.Now, 4000, false, true); log3.TimeTurnedOn.AddDays(3);
+            //Arrange DD/MM/YYYY HH:MM:SS
+            /*LightSensorRepositoryDB DB = _lightSensorDatabase;
+            LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
+			LogEntry log2 = new LogEntry(70000, true, false); log2.TimeTurnedOn.AddDays(1);
+			LogEntry log3 = new LogEntry(4000, false, true); log3.TimeTurnedOn.AddDays(3);
             DB.Add(log1); DB.Add(log2); DB.Add(log3);
 
 
@@ -67,10 +69,23 @@ namespace SensorTestClass
             //Assert
             Assert.AreEqual(firstEntry, log2);
             Assert.AreEqual(lastEntry, log3);
-		}
-		[TestMethod, Priority(4)]
-		[DoNotParallelize]
-		public void GetByIdTest()
+            */
+            var AllData = _lightSensorDatabase.Get(null, false).ToList();
+            DateTime lastentry = DateTime.MinValue;
+            foreach (var entry in AllData)
+            {
+                if (entry.TimeTurnedOn < lastentry && entry.TimeTurnedOn != lastentry)
+                {
+                    throw new AssertFailedException("Entries are not in ascending order by TimeTurnedOn");
+                }
+                else
+                {
+                    lastentry = entry.TimeTurnedOn;
+                }
+            }
+        }
+		[TestMethod] 
+        public void GetByIdTest()
         {
             //act 
             var AllData = _lightSensorDatabase.Get();

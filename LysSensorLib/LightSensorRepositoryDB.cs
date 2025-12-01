@@ -44,13 +44,13 @@ namespace LysSensorLib
             if (date != null)
             {
                 DateTime targetDate = date.Value.Date;
-                query = query.Where(le => le.TimeTurnedOn.Date == targetDate);
+                query = query.Where(le => le.TimeTurnedOn == targetDate);
             }
             if (descending != null)
             {
                 query = (bool)descending
-                ? query.OrderByDescending(le => le.TimeTurnedOn.Date)
-                : query.OrderBy(le => le.TimeTurnedOn.Date);
+                ? query.OrderByDescending(le => le.TimeTurnedOn)
+                : query.OrderBy(le => le.TimeTurnedOn);
             }
 
             return query.ToList();
