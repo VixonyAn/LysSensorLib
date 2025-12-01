@@ -32,7 +32,5 @@ namespace SensorTestClass
             Assert.AreEqual("LogEntry [TimeTurnedOn = " + logEntry.TimeTurnedOn + ", OutsideLightLevel = " + logEntry.LightLevel
                     + "lux, CurtainOpened = " + logEntry.IsDrawn + "]", toStringResult);
         }
-
-     
     }
 }

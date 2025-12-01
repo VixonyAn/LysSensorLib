@@ -50,9 +50,12 @@ namespace SensorTestClass
             Assert.IsNotNull(AllData);
         }
 
-		[TestMethod]
+		[TestMethod, Priority(3)]
+        [DoNotParallelize]
 		public void GetFilteredTest()
 		{
+            // Previous Test
+
             //Arrange DD/MM/YYYY HH:MM:SS
             /*LightSensorRepositoryDB DB = _lightSensorDatabase;
             LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
@@ -70,22 +73,26 @@ namespace SensorTestClass
             Assert.AreEqual(firstEntry, log2);
             Assert.AreEqual(lastEntry, log3);
             */
+
+            // Current Working Test
+
             var AllData = _lightSensorDatabase.Get(null, false).ToList();
-            DateTime lastentry = DateTime.MinValue;
+            DateTime lastEntry = DateTime.MinValue;
             foreach (var entry in AllData)
             {
-                if (entry.TimeTurnedOn < lastentry && entry.TimeTurnedOn != lastentry)
+                if (entry.TimeTurnedOn < lastEntry && entry.TimeTurnedOn != lastEntry)
                 {
                     throw new AssertFailedException("Entries are not in ascending order by TimeTurnedOn");
                 }
                 else
                 {
-                    lastentry = entry.TimeTurnedOn;
+                    lastEntry = entry.TimeTurnedOn;
                 }
             }
         }
-		[TestMethod] 
-        public void GetByIdTest()
+		[TestMethod, Priority(4)]
+		[DoNotParallelize]
+		public void GetByIdTest()
         {
             //act 
             var AllData = _lightSensorDatabase.Get();
