@@ -17,7 +17,7 @@ namespace RESTLysSensor.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		public IActionResult Get([FromQuery] DateTime? date, [FromQuery] bool? descending)
+		public ActionResult<List<LogEntry>> Get([FromQuery] DateTime? date, [FromQuery] bool? descending)
 		{
 			List<LogEntry> entries = repo.Get(date, descending).ToList<LogEntry>();
 			if (entries.Count == 0) { return NoContent(); }
@@ -28,27 +28,40 @@ namespace RESTLysSensor.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public LogEntry Get(int id)
+		public ActionResult<LogEntry> Get(int id)
 		{
-			return repo.GetById(id);
+			LogEntry? item = repo.GetById(id);
+			if (item == null) { return NotFound(); }
+			else { return Ok(item); }
 		}
 
 		// POST api/<LightSensorController>
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public void Post([FromBody] LogEntry value)
+		public ActionResult<LogEntry> Post([FromBody] LogEntry value)
 		{
-			repo.Add(value);
+			try
+			{
+				LogEntry? item = repo.Add(value);
+				string uri = Url.RouteUrl(RouteData.Values) + "/" + item.Id;
+				return Created(uri, item); // 201 Created
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 
 		// DELETE api/<LightSensorController>/5
 		[HttpDelete("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public void Delete(int id)
+		public ActionResult<LogEntry> Delete(int id)
 		{
-			repo.Delete(id);
+			LogEntry? item = repo.Delete(id);
+			if (item == null) { return NotFound(); }
+			else { return Ok(item); }
 		}
 	}
 }
