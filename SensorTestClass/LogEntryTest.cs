@@ -1,4 +1,5 @@
 ﻿using LysSensorLib;
+using System.Runtime.CompilerServices;
 
 namespace SensorTestClass
 {
@@ -8,10 +9,12 @@ namespace SensorTestClass
         [TestMethod]
         public void CreateObjectTest()
         {
-            //arrange 
-            LogEntry logEntry = new LogEntry(500, true, false);
+            //arrange
+            DateTime now = DateTime.Now;
+            LogEntry logEntry = new LogEntry(now, 500, true, false);
 
             //assert 
+            Assert.AreEqual(now, logEntry.TimeTurnedOn);
             Assert.AreEqual(500, logEntry.LightLevel);
             Assert.AreEqual(true, logEntry.IsDrawn);
             Assert.AreEqual(false, logEntry.LightsOn);
@@ -22,18 +25,12 @@ namespace SensorTestClass
         public void ToStringTest()
         {
             //arrange 
-            LogEntry logEntry = new LogEntry(300, false, true);
+            LogEntry logEntry = new LogEntry(DateTime.Now, 300, false, true);
             //act
             var toStringResult = logEntry.ToString();
             //assert
             Assert.AreEqual("LogEntry [TimeTurnedOn = " + logEntry.TimeTurnedOn + ", OutsideLightLevel = " + logEntry.LightLevel
                     + "lux, CurtainOpened = " + logEntry.IsDrawn + "]", toStringResult);
-        }
-
-        [TestMethod]
-        public void TestFail() 
-        {
-            throw new NotImplementedException();
         }
     }
 }

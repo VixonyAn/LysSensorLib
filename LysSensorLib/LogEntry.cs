@@ -12,9 +12,9 @@
 
         #region Constructors
         //Constructor for LogEntry
-        public LogEntry(double outsideLightLevel, bool curtainsOpened, bool lightOn)
+        public LogEntry(DateTime timeTurnedOn, double outsideLightLevel, bool curtainsOpened, bool lightOn)
         {
-            TimeTurnedOn = DateTime.Now;
+            TimeTurnedOn = timeTurnedOn;
             LightLevel = outsideLightLevel;
             IsDrawn = curtainsOpened;
             LightsOn = lightOn;
@@ -27,6 +27,8 @@
         }
         #endregion
         #region Methods
+
+        
         public override string ToString()
         {
             return "LogEntry [TimeTurnedOn = " + TimeTurnedOn + ", OutsideLightLevel = " + LightLevel
