@@ -6,9 +6,9 @@ namespace RESTLysSensor.Controllers
 	[ApiController]
 	public class LightSensorController : ControllerBase
 	{
-		private LightSensorRepositoryDB repo;
+		private ILightSensorRepositoryDB repo;
 
-		public LightSensorController(LightSensorRepositoryDB rep)
+		public LightSensorController(ILightSensorRepositoryDB rep)
 		{ // Dependency Injection
 			repo = rep;
 		}

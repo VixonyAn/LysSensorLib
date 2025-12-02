@@ -32,37 +32,21 @@ builder.Services.AddSingleton<ILightSensorRepositoryDB>(_repo);
 builder.Services.AddCors(options =>
 
 {
-
     options.AddPolicy("allowAnythingFromZealand",
-
         builder =>
-
             builder.WithOrigins("http://zealand.dk")
-
                 .AllowAnyHeader()
-
                 .AllowAnyMethod());
-
     options.AddPolicy("allowGetPut",
-
         builder =>
-
             builder.AllowAnyOrigin()
-
             .WithMethods("GET", "PUT")
-
             .AllowAnyHeader());
-
     options.AddPolicy("allowAnything", // similar to * in Azure
-
         builder =>
-
             builder.AllowAnyOrigin()
-
                 .AllowAnyMethod()
-
                 .AllowAnyHeader());
-
 });
 
 var app = builder.Build();
@@ -72,9 +56,10 @@ app.MapOpenApi();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseCors("allowAnythingFromZealand");
+// app.UseCors("allowAnythingFromZealand");
+app.UseCors("allowAnything");
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

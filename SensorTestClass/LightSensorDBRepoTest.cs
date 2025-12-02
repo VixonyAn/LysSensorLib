@@ -10,11 +10,11 @@ namespace SensorTestClass
 {
     [TestClass]
     [DoNotParallelize]
-    public sealed class LightSensorDataBaseTest
+    public sealed class LightSensorDBRepoTest
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private LightSensorRepositoryDB _lightSensorDatabase;
+        private LightSensorRepositoryDB _repoDB;
 
         [TestInitialize]
         public void Init()
@@ -22,7 +22,7 @@ namespace SensorTestClass
             var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
             optionBuilder.UseSqlServer(Secret.ConnectionString);
             LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
-            _lightSensorDatabase = new LightSensorRepositoryDB(_context);
+            _repoDB = new LightSensorRepositoryDB(_context);
         }
 
         [TestMethod, Priority(1)]
@@ -33,19 +33,19 @@ namespace SensorTestClass
             //arrange 
             LogEntry logEntry = new LogEntry(DateTime.Now, 500, true, false);
             //act
-            int beforeCount = _lightSensorDatabase.Get().Count();
-            _lightSensorDatabase.Add(logEntry);
-            int afterCount = _lightSensorDatabase.Get().Count();
+            int beforeCount = _repoDB.Get().Count();
+            _repoDB.Add(logEntry);
+            int afterCount = _repoDB.Get().Count();
 
             //assert 
-            Assert.AreEqual(beforeCount,afterCount-1 );
+            Assert.AreEqual(beforeCount,afterCount-1);
         }
 		[TestMethod, Priority(2)]
 		[DoNotParallelize]
 		public void GetAllTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             //Assert
             Assert.IsNotNull(AllData);
         }
@@ -76,7 +76,7 @@ namespace SensorTestClass
 
             // Current Working Test
 
-            var AllData = _lightSensorDatabase.Get(null, false).ToList();
+            var AllData = _repoDB.Get(null, false).ToList();
             DateTime lastEntry = DateTime.MinValue;
             foreach (var entry in AllData)
             {
@@ -95,9 +95,9 @@ namespace SensorTestClass
 		public void GetByIdTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             var LastEntry = AllData.Last();
-            var RetrievedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
+            var RetrievedEntry = _repoDB.GetById(LastEntry.Id);
             //Assert
             Assert.AreEqual(LastEntry, RetrievedEntry);
         }
@@ -107,10 +107,10 @@ namespace SensorTestClass
 		public void DeleteObjectTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             var LastEntry = AllData.Last();
-            _lightSensorDatabase.Delete(LastEntry.Id);
-            var DeletedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
+            _repoDB.Delete(LastEntry.Id);
+            var DeletedEntry = _repoDB.GetById(LastEntry.Id);
             //Assert
             Assert.IsNull(DeletedEntry);
 
