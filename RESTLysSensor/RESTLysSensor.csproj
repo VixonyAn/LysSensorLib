@@ -16,10 +16,4 @@
     <ProjectReference Include="..\LysSensorLib\LysSensorLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="LysSensorLib">
-      <HintPath>..\LysSensorLib\bin\Debug\net9.0\LysSensorLib.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
