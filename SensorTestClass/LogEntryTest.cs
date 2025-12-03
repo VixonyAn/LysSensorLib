@@ -10,11 +10,11 @@ namespace SensorTestClass
         public void CreateObjectTest()
         {
             //arrange
-            DateTime now = DateTime.Now;
-            LogEntry logEntry = new LogEntry(now, 500, true, false);
+            
+            LogEntry logEntry = new LogEntry(1764763357, 500, true, false);
 
             //assert 
-            Assert.AreEqual(now, logEntry.TimeTurnedOn);
+            Assert.AreEqual(1764763357, logEntry.TimeTurnedOn);
             Assert.AreEqual(500, logEntry.LightLevel);
             Assert.AreEqual(true, logEntry.IsDrawn);
             Assert.AreEqual(false, logEntry.LightsOn);
@@ -25,7 +25,7 @@ namespace SensorTestClass
         public void ToStringTest()
         {
             //arrange 
-            LogEntry logEntry = new LogEntry(DateTime.Now, 300, false, true);
+            LogEntry logEntry = new LogEntry(1764763357, 300, false, true);
             //act
             var toStringResult = logEntry.ToString();
             //assert

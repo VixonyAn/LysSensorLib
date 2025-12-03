@@ -36,14 +36,14 @@ namespace LysSensorLib
 		}
 
 		public IEnumerable<LogEntry> Get(
-			DateTime? date = null, // Dette er vores søge/filter for dato
+			long? date = null, // Dette er vores søge/filter for dato
 			bool? descending = null) //Sort by TimeTurnedOn.Date ascending by default.
 		{
 			IQueryable<LogEntry> query = _context.LightData;
 
 			if (date != null)
 			{
-				DateTime targetDate = date.Value.Date;
+				long targetDate = date.Value;
 				query = query.Where(le => le.TimeTurnedOn == targetDate);
 			}
 			if (descending != null)

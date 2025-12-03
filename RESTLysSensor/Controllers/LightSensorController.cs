@@ -17,7 +17,7 @@ namespace RESTLysSensor.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		public ActionResult<List<LogEntry>> Get([FromQuery] DateTime? date, [FromQuery] bool? descending)
+		public ActionResult<List<LogEntry>> Get([FromQuery] long? date, [FromQuery] bool? descending)
 		{
 			List<LogEntry> entries = repo.Get(date, descending).ToList<LogEntry>();
 			if (entries.Count == 0) { return NoContent(); }

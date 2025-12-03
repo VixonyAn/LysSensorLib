@@ -31,7 +31,7 @@ namespace SensorTestClass
         {
             Thread.Sleep(1000);
             //arrange 
-            LogEntry logEntry = new LogEntry(DateTime.Now, 500, true, false);
+            LogEntry logEntry = new LogEntry(1764763357, 500, true, false);
             //act
             int beforeCount = _repoDB.Get().Count();
             _repoDB.Add(logEntry);
@@ -77,7 +77,7 @@ namespace SensorTestClass
             // Current Working Test
 
             var AllData = _repoDB.Get(null, false).ToList();
-            DateTime lastEntry = DateTime.MinValue;
+            long lastEntry = 0;
             foreach (var entry in AllData)
             {
                 if (entry.TimeTurnedOn < lastEntry && entry.TimeTurnedOn != lastEntry)
