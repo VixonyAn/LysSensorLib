@@ -9,7 +9,11 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<LightSensorRepositoryDB>();
+
+builder.Services.AddDbContext<LightSensorDBContext>(options =>
+    options.UseSqlServer(Secret.ConnectionString));
+
+builder.Services.AddScoped<LightSensorRepositoryDB>();
 
 builder.Services.AddCors(options =>
 
