@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 namespace SensorTestClass
 {
     [TestClass]
-    public sealed class LightSensorDataBaseTest
+    [DoNotParallelize]
+    public sealed class LightSensorDBRepoTest
     {
         //Remember "Should fail" Tests!!! c: 
 
-        private LightSensorRepositoryDB _lightSensorDatabase;
+        private LightSensorRepositoryDB _repoDB;
 
         [TestInitialize]
         public void Init()
@@ -21,35 +22,40 @@ namespace SensorTestClass
             var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
             optionBuilder.UseSqlServer(Secret.ConnectionString);
             LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
-            _lightSensorDatabase = new LightSensorRepositoryDB(_context);
+            _repoDB = new LightSensorRepositoryDB(_context);
         }
 
-        [TestMethod]
+        [TestMethod, Priority(1)]
+        [DoNotParallelize]
         public void AddObjectTest()
         {
             Thread.Sleep(1000);
             //arrange 
-            LogEntry logEntry = new LogEntry(500, true, false);
+            LogEntry logEntry = new LogEntry(1764763357, 500, true, false);
             //act
-            int beforeCount = _lightSensorDatabase.Get().Count();
-            _lightSensorDatabase.Add(logEntry);
-            int afterCount = _lightSensorDatabase.Get().Count();
+            int beforeCount = _repoDB.Get().Count();
+            _repoDB.Add(logEntry);
+            int afterCount = _repoDB.Get().Count();
 
             //assert 
-            Assert.AreEqual(beforeCount,afterCount-1 );
+            Assert.AreEqual(beforeCount,afterCount-1);
         }
-        [TestMethod]
-        public void GetAllTest()
+		[TestMethod, Priority(2)]
+		[DoNotParallelize]
+		public void GetAllTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             //Assert
             Assert.IsNotNull(AllData);
         }
 
-		[TestMethod]
+		[TestMethod, Priority(3)]
+        [DoNotParallelize]
 		public void GetFilteredTest()
 		{
+            // Previous Test
+
             //Arrange DD/MM/YYYY HH:MM:SS
             /*LightSensorRepositoryDB DB = _lightSensorDatabase;
             LogEntry log1 = new LogEntry(50000, true, false); log1.TimeTurnedOn.AddDays(2);
@@ -67,39 +73,44 @@ namespace SensorTestClass
             Assert.AreEqual(firstEntry, log2);
             Assert.AreEqual(lastEntry, log3);
             */
-            var AllData = _lightSensorDatabase.Get(null, false).ToList();
-            DateTime lastentry = DateTime.MinValue;
+
+            // Current Working Test
+
+            var AllData = _repoDB.Get(null, false).ToList();
+            long lastEntry = 0;
             foreach (var entry in AllData)
             {
-                if (entry.TimeTurnedOn < lastentry && entry.TimeTurnedOn != lastentry)
+                if (entry.TimeTurnedOn < lastEntry && entry.TimeTurnedOn != lastEntry)
                 {
                     throw new AssertFailedException("Entries are not in ascending order by TimeTurnedOn");
                 }
                 else
                 {
-                    lastentry = entry.TimeTurnedOn;
+                    lastEntry = entry.TimeTurnedOn;
                 }
             }
         }
-		[TestMethod] 
-        public void GetByIdTest()
+		[TestMethod, Priority(4)]
+		[DoNotParallelize]
+		public void GetByIdTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             var LastEntry = AllData.Last();
-            var RetrievedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
+            var RetrievedEntry = _repoDB.GetById(LastEntry.Id);
             //Assert
             Assert.AreEqual(LastEntry, RetrievedEntry);
         }
 
-        [TestMethod]
-        public void DeleteObjectTest()
+        [TestMethod, Priority(5)]
+		[DoNotParallelize]
+		public void DeleteObjectTest()
         {
             //act 
-            var AllData = _lightSensorDatabase.Get();
+            var AllData = _repoDB.Get();
             var LastEntry = AllData.Last();
-            _lightSensorDatabase.Delete(LastEntry.Id);
-            var DeletedEntry = _lightSensorDatabase.GetById(LastEntry.Id);
+            _repoDB.Delete(LastEntry.Id);
+            var DeletedEntry = _repoDB.GetById(LastEntry.Id);
             //Assert
             Assert.IsNull(DeletedEntry);
 
