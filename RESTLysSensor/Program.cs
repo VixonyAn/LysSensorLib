@@ -14,13 +14,19 @@ builder.Services.AddSwaggerGen();
 
 const bool useDB = true;
 ILightSensorRepositoryDB _repo;
+IAlarmRepositoryDB _alarmRepo;
 if (useDB)
 {
 	var optionsBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
-	optionsBuilder.UseSqlServer(LysSensorLib.Secret.ConnectionString);
-	LightSensorDBContext _dbContext = new(optionsBuilder.Options);
-	//_dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LightData");
-	_repo = new LightSensorRepositoryDB(_dbContext);
+    var optionsBuilder2 = new DbContextOptionsBuilder<AlarmDBContext>();
+
+    optionsBuilder.UseSqlServer(LysSensorLib.Secret.ConnectionString);
+    optionsBuilder2.UseSqlServer(LysSensorLib.Secret.ConnectionString);
+    LightSensorDBContext _dbContext = new(optionsBuilder.Options);
+    AlarmDBContext _alarmDbContext = new(optionsBuilder2.Options);
+    //_dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LightData");
+    _repo = new LightSensorRepositoryDB(_dbContext);
+    _alarmRepo = new AlarmRepositoryDB(_alarmDbContext);
 }
 else
 {
@@ -28,6 +34,7 @@ else
 }
 
 builder.Services.AddSingleton<ILightSensorRepositoryDB>(_repo);
+builder.Services.AddSingleton<IAlarmRepositoryDB>(_alarmRepo);
 
 builder.Services.AddCors(options =>
 
