@@ -6,34 +6,56 @@ using System.Threading.Tasks;
 
 namespace LysSensorLib
 {
-    public class AlarmRepositoryDB
+    public class AlarmRepositoryDB : IAlarmRepositoryDB
     {
-        // private string connectionString = Secret.ConnectionString;
+        private readonly AlarmDBContext _context;
 
-        public LogEntry Add(Alarm a)
+        public AlarmRepositoryDB(AlarmDBContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public Alarm Add(Alarm a)
+        {
+            _context.AlarmData.Add(a);
+            a.Id = 0; // Ensure EF Core treats this as a new entity
+            _context.SaveChanges();
+            return a;
             //husk tilføj logentry når alarmen går af
         }
 
-        public LogEntry? Delete(int id)
+        public Alarm? Delete(int id)
         {
-            throw new NotImplementedException();
+            Alarm? alarm = GetById(id);
+            if (alarm == null)
+            {
+                return null;
+            }
+            _context.AlarmData.Remove(alarm);
+            _context.SaveChanges();
+            return alarm;
         }
 
-        public IEnumerable<LogEntry> GetAll()
+        public IEnumerable<Alarm> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.AlarmData.ToList();
         }
 
-        public LogEntry? GetById(int id)
+        public Alarm? GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.AlarmData.Find(id);
         }
 
-        public LogEntry? Update(int id, LogEntry data)
+        public Alarm? Update(int id, Alarm data)
         {
-            throw new NotImplementedException();
+            Alarm? alarm = GetById(id);
+            if (alarm == null)
+            {
+                return null;
+            }
+            _context.Entry(alarm).CurrentValues.SetValues(data);
+            _context.SaveChanges();
+            return data;
         }
     }
 }

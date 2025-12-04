@@ -10,6 +10,7 @@ namespace LysSensorLib
     {
         public string Day { get; set; }
         public TimeOnly Time { get; set; }
+        public int Id { get; set; }
 
         public Alarm(string day, TimeOnly time)
         {
