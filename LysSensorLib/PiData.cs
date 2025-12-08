@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace LysSensorLib
 {
-    public class Alarm
+    public class PiData
     {
-        public string Day { get; set; }
-        public TimeOnly Time { get; set; }
         public int Id { get; set; }
+        public int LightValue { get; set; }
 
-        public Alarm(string day, TimeOnly time)
+        public PiData(int lightValue)
         {
-            Day = day;
-            Time = time;
+            LightValue = lightValue;
         }
     }
 }
