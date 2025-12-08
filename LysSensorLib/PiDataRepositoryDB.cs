@@ -19,5 +19,12 @@ namespace LysSensorLib
             return _context.PiData.LastOrDefault();
         }
 
+        public PiData Add(PiData p)
+        {
+            _context.PiData.Add(p);
+            p.Id = 0;
+            _context.SaveChanges();
+            return p;
+        }
     }
 }
