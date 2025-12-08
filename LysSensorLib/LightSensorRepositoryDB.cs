@@ -9,15 +9,34 @@ namespace LysSensorLib
 	public class LightSensorRepositoryDB : ILightSensorRepositoryDB
 	{
 		private readonly LightSensorDBContext _context;
+		private readonly PiDataRepositoryDB piRepo;
 
-		public LightSensorRepositoryDB(LightSensorDBContext context)
+        public LightSensorRepositoryDB(LightSensorDBContext context)
 		{
 			_context = context;
 		}
 
 		public LogEntry Add(LogEntry l)
 		{
-			_context.LightData.Add(l);
+			
+			int? lightvalue = piRepo.Get().LightValue;
+            if (lightvalue == null)
+            {
+                throw new ArgumentException("No light value available from PiDataRepositoryDB.");
+            }
+			l.LightLevel = lightvalue.Value;
+			if (l.LightLevel < 10000)
+			{
+				l.IsDrawn = true;
+				l.LightsOn = true;
+            }
+            else
+			{
+				l.IsDrawn = false;
+				l.LightsOn = false;
+            }
+
+            _context.LightData.Add(l);
 			l.Id = 0; // Ensure EF Core treats this as a new entity
 			_context.SaveChanges();
 			return l;
