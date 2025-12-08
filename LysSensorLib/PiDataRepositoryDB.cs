@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LysSensorLib
 {
-    public class PiDataRepositoryDB
+    public class PiDataRepositoryDB : IPiDataRepositoryDB
     {
         private readonly PiDataDBContext _context;
         public PiDataRepositoryDB(PiDataDBContext context)
