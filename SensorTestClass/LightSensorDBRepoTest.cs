@@ -34,7 +34,7 @@ namespace SensorTestClass
             LogEntry logEntry = new LogEntry(1764763357, 500, true, false);
             //act
             int beforeCount = _repoDB.Get().Count();
-            _repoDB.Add(logEntry);
+            _repoDB.Add();
             int afterCount = _repoDB.Get().Count();
 
             //assert 

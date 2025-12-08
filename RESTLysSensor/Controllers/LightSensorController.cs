@@ -39,11 +39,11 @@ namespace RESTLysSensor.Controllers
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public ActionResult<LogEntry> Post([FromBody] LogEntry value)
+		public ActionResult<LogEntry> Post()
 		{
 			try
 			{
-				LogEntry? item = repo.Add(value);
+				LogEntry? item = repo.Add();
 				string uri = Url.RouteUrl(RouteData.Values) + "/" + item.Id;
 				return Created(uri, item); // 201 Created
 			}

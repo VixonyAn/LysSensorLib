@@ -16,10 +16,10 @@ namespace LysSensorLib
 			_context = context;
 		}
 
-		public LogEntry Add(LogEntry l)
+		public LogEntry Add()
 		{
-			
-			int? lightvalue = piRepo.Get().LightValue;
+			LogEntry l = new LogEntry();
+            int? lightvalue = piRepo.Get().LightValue;
             if (lightvalue == null)
             {
                 throw new ArgumentException("No light value available from PiDataRepositoryDB.");
@@ -35,6 +35,7 @@ namespace LysSensorLib
 				l.IsDrawn = false;
 				l.LightsOn = false;
             }
+			l.TimeTurnedOn = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             _context.LightData.Add(l);
 			l.Id = 0; // Ensure EF Core treats this as a new entity
