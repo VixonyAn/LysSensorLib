@@ -16,7 +16,7 @@ namespace LysSensorLib
 
         public PiData? Get()
         {
-            return _context.PiData.LastOrDefault();
+            return _context.PiData.OrderBy(x => x.Id).LastOrDefault();
         }
 
         public PiData Add(PiData p)
