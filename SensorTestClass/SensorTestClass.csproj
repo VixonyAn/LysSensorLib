@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LysSensorLib\LysSensorLib.csproj" />
-    <ProjectReference Include="..\RESTLysSensor\RESTLysSensor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
