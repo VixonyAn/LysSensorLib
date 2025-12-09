@@ -9,22 +9,34 @@ namespace LysSensorLib
 	public class LightSensorRepositoryDB : ILightSensorRepositoryDB
 	{
 		private readonly LightSensorDBContext _context;
-		private readonly PiDataRepositoryDB piRepo;
+        private readonly IPiDataRepositoryDB _piRepo;
 
-        public LightSensorRepositoryDB(LightSensorDBContext context)
+
+        public LightSensorRepositoryDB(LightSensorDBContext context, IPiDataRepositoryDB piRepo)
 		{
 			_context = context;
-		}
+			_piRepo = piRepo;
+        }
 
 		public LogEntry Add()
 		{
 			LogEntry l = new LogEntry();
-            int? lightvalue = piRepo.Get().LightValue;
-            if (lightvalue == null)
+            var piData = _piRepo.Get();
+
+            if (piData == null)
+            {
+                throw new ArgumentException("No PiData available.");
+            }
+
+            int? lightValue = piData.LightValue;
+            if (lightValue == null)
             {
                 throw new ArgumentException("No light value available from PiDataRepositoryDB.");
             }
-			l.LightLevel = lightvalue.Value;
+
+            l.LightLevel = lightValue.Value;
+
+         
 			if (l.LightLevel < 10000)
 			{
 				l.IsDrawn = true;
