@@ -29,9 +29,9 @@ if (useDB)
     AlarmDBContext _alarmDbContext = new(optionsBuilder2.Options);
     PiDataDBContext _piDataDbContext = new(optionsBuilder3.Options);
     //_dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LightData");
-    _repo = new LightSensorRepositoryDB(_dbContext);
     _alarmRepo = new AlarmRepositoryDB(_alarmDbContext);
     _piDataRepo = new PiDataRepositoryDB(_piDataDbContext);
+	_repo = new LightSensorRepositoryDB(_dbContext, _piDataRepo);
 }
 else
 {
@@ -43,7 +43,6 @@ builder.Services.AddSingleton<IAlarmRepositoryDB>(_alarmRepo);
 builder.Services.AddSingleton<IPiDataRepositoryDB>(_piDataRepo);
 
 builder.Services.AddCors(options =>
-
 {
     //options.AddPolicy("allowAnythingFromZealand",
     //    builder =>
