@@ -18,26 +18,24 @@ IAlarmRepositoryDB _alarmRepo;
 IPiDataRepositoryDB _piDataRepo;
 if (useDB)
 {
-	var optionsBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
+    var optionsBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
     var optionsBuilder2 = new DbContextOptionsBuilder<AlarmDBContext>();
     var optionsBuilder3 = new DbContextOptionsBuilder<PiDataDBContext>();
 
     optionsBuilder.UseSqlServer(LysSensorLib.Secret.ConnectionString);
     optionsBuilder2.UseSqlServer(LysSensorLib.Secret.ConnectionString);
     optionsBuilder3.UseSqlServer(LysSensorLib.Secret.ConnectionString);
-
     LightSensorDBContext _dbContext = new(optionsBuilder.Options);
     AlarmDBContext _alarmDbContext = new(optionsBuilder2.Options);
     PiDataDBContext _piDataDbContext = new(optionsBuilder3.Options);
     //_dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LightData");
-
     _repo = new LightSensorRepositoryDB(_dbContext);
     _alarmRepo = new AlarmRepositoryDB(_alarmDbContext);
     _piDataRepo = new PiDataRepositoryDB(_piDataDbContext);
 }
 else
 {
-	Console.WriteLine("Please Connect the Database");
+    Console.WriteLine("Please Connect the Database");
 }
 
 builder.Services.AddSingleton<ILightSensorRepositoryDB>(_repo);
