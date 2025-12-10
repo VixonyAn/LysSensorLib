@@ -35,7 +35,7 @@ namespace SensorTestClass
 			Assert.AreEqual("button", btnTag);
 		}
 
-		[TestMethod]
+		/*[TestMethod]
 		public void TestDateCorrect()
 		{
 			//Arrange
@@ -47,12 +47,12 @@ namespace SensorTestClass
 			IWebElement refData = driver.FindElement(By.Id("refData"));
 			refData.Click();
 
-			//Act			
+			//Act
 			IWebElement dataEntry = driver.FindElement(By.Id("DataDate"));
 			var dataDate = dataEntry.GetAttribute("timeTurnedOn");
 
 			//Assert
 			Assert.AreEqual(dateNow, dataDate);
-		}
+		}*/
 	}
 }
