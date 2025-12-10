@@ -54,6 +54,13 @@ namespace LysSensorLib
 			_context.SaveChanges();
 			return l;
 		}
+		public LogEntry ManualAdd(LogEntry l)
+		{
+            _context.LightData.Add(l);
+            l.Id = 0; // Ensure EF Core treats this as a new entity
+            _context.SaveChanges();
+            return l;
+        }
 
 		public LogEntry? Delete(int id)
 		{

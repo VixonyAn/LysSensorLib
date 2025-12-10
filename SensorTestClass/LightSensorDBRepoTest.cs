@@ -15,6 +15,7 @@ namespace SensorTestClass
         //Remember "Should fail" Tests!!! c: 
 
         private LightSensorRepositoryDB _repoDB;
+        private IPiDataRepositoryDB _piRepo;
 
         [TestInitialize]
         public void Init()
@@ -22,7 +23,7 @@ namespace SensorTestClass
             var optionBuilder = new DbContextOptionsBuilder<LightSensorDBContext>();
             optionBuilder.UseSqlServer(Secret.ConnectionString);
             LightSensorDBContext _context = new LightSensorDBContext(optionBuilder.Options);
-            _repoDB = new LightSensorRepositoryDB(_context);
+            _repoDB = new LightSensorRepositoryDB(_context, _piRepo);
         }
 
         [TestMethod, Priority(1)]
@@ -34,7 +35,7 @@ namespace SensorTestClass
             LogEntry logEntry = new LogEntry(1764763357, 500, true, false);
             //act
             int beforeCount = _repoDB.Get().Count();
-            _repoDB.Add();
+            _repoDB.ManualAdd(logEntry);
             int afterCount = _repoDB.Get().Count();
 
             //assert 

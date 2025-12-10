@@ -14,6 +14,11 @@ namespace LysSensorLib
             _context = context;
         }
 
+        public List<PiData> GetAll()
+        {
+            return _context.PiData.ToList();
+        }
+
         public PiData? Get()
         {
             return _context.PiData.OrderBy(x => x.Id).LastOrDefault();
