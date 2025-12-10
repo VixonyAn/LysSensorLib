@@ -23,9 +23,18 @@ namespace RESTLysSensor.Controllers
             else { return Ok(lastEntry); }
         }
 
+		[HttpGet("{getAll:bool}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		public ActionResult<List<PiData>> Get(bool getAll = true)
+		{
+			List<PiData> results = repo.GetAll();
+			if (results == null) { return NoContent(); }
+			else { return Ok(results); }
+		}
 
-        // POST api/<LightSensorController>
-        [HttpPost]
+		// POST api/<LightSensorController>
+		[HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<PiData> Post(PiData pidata)
