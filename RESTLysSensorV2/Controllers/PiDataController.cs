@@ -50,7 +50,5 @@ namespace RESTLysSensor.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
     }
 }
