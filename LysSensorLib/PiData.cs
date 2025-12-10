@@ -9,9 +9,9 @@ namespace LysSensorLib
     public class PiData
     {
         public int Id { get; set; }
-        public int LightValue { get; set; }
+        public double LightValue { get; set; }
 
-        public PiData(int lightValue)
+        public PiData(double lightValue)
         {
             LightValue = lightValue;
         }
