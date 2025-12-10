@@ -28,7 +28,7 @@ namespace LysSensorLib
                 throw new ArgumentException("No PiData available.");
             }
 
-            int? lightValue = piData.LightValue;
+            double? lightValue = piData.LightValue;
             if (lightValue == null)
             {
                 throw new ArgumentException("No light value available from PiDataRepositoryDB.");
