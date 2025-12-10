@@ -13,6 +13,7 @@ namespace RESTLysSensor.Controllers
         { // Dependency Injection
             repo = rep;
         }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -50,5 +51,15 @@ namespace RESTLysSensor.Controllers
                 return BadRequest(ex.Message);
             }
         }
-    }
+
+		[HttpDelete("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public ActionResult<PiData> Delete(int id)
+		{
+			PiData? item = repo.Delete(id);
+			if (item == null) { return NotFound(); }
+			else { return Ok(item); }
+		}
+	}
 }

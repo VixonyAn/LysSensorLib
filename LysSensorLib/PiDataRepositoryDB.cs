@@ -24,12 +24,29 @@ namespace LysSensorLib
 			return _context.PiData.OrderBy(x => x.Id).LastOrDefault();
 		}
 
+        public PiData? GetById(int id)
+        {
+            return _context.PiData.Find(id);
+        }
+
         public PiData Add(PiData p)
         {
             _context.PiData.Add(p);
             p.Id = 0;
             _context.SaveChanges();
             return p;
+        }
+
+        public PiData? Delete(int id)
+        {
+            PiData? piData = GetById(id);
+            if (piData == null)
+            {
+                return null;
+            }
+            _context.PiData.Remove(piData);
+            _context.SaveChanges();
+            return piData;
         }
     }
 }
